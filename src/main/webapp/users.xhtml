@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="maincontent">
+                <b:panel rendered="#{userBean.list}" look="default"  collapsible="false">
+                    <f:facet name="heading">
+                        <b:panelGrid colSpans="12" size="md" styleClass="ui-fluid">
+                            <p:outputLabel value="#{userBean.panelTitleName}" styleClass="panel-title-css"/>
+                            <p:separator/>
+                        </b:panelGrid>
+                    </f:facet>
+                    <p:dataTable value="#{userBean.collections}" var="user" paginator="true" paginatorPosition="top" paginatorAlwaysVisible="false" reflow="true" rows="10">
+                        <f:facet name="header">
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <b:commandButton iconSize="lg" iconAwesome="fa-plus" look="primary" value="Add" action="#{userBean.addOrUpdate(null)}" update="@form"/>
+                                </f:facet>
+                            </p:toolbar>
+                        </f:facet>
+                        <p:column headerText="Created Date">
+                            <h:outputText value="#{user.createdDate}">
+                                <f:convertDateTime pattern="yyyy - MM - dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Created By">
+                            <h:outputText value="#{user.createdBy}"/>
+                        </p:column>
+                        <p:column headerText="Full Names">
+                            <h:outputText value="#{user.name} #{user.surname}"/>
+                        </p:column>
+                        <p:column headerText="Email Address">
+                            <h:outputText value="#{user.emailAddress}"/>
+                        </p:column>
+                        <p:column headerText="Contact Number">
+                            <h:outputText value="#{user.contactNumber}"/>
+                        </p:column>
+                        <p:column headerText="Action" styleClass="large">
+                            <b:commandButton look="primary" value="Edit" size="xs" icon-size="xs" iconBrand="5.2.0" icon-awesome="fa-pencil" action="#{userBean.addOrUpdate(user)}" update="@form"/>
+                            <p:spacer width="5px"/>
+                            <b:commandButton look="danger" value="Del" size="xs" icon-size="xs" iconBrand="5.2.0" icon-awesome="fa-trash" action="#{userBean.delete(user)}" update="@form"/>
+                        </p:column>
+                    </p:dataTable>
+                </b:panel>
+                <b:panel rendered="#{userBean.add}" look="default" collapsible="false">
+                    <f:facet name="heading">
+                        <p:outputLabel value="#{userBean.panelTitleName}" styleClass="panel-title-css"/>
+                    </f:facet>
+                   <b:panelGrid colSpans="6,6" size="md" style-class="ui-fluid">   
+                        <b:formGroup>
+                            <p:outputLabel value="Name"/>
+                            <b:inputText value="#{userBean.entity.name}" required="true" requiredMessage="Please enter username" field-size="md"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Surname"/>
+                            <b:inputText value="#{userBean.entity.surname}" required="true" requiredMessage="Please enter surname" field-size="md"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Email Address"/>
+                            <b:inputText value="#{userBean.entity.emailAddress}" required="true" requiredMessage="Please enter email address" field-size="md"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Contact Number"/>
+                            <b:inputText value="#{userBean.entity.contactNumber}" required="true" requiredMessage="Please enter contact number" field-size="md"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Username"/>
+                            <b:inputText value="#{userBean.entity.username}" required="true" requiredMessage="Please enter username" field-size="md"/>
+                        </b:formGroup>
+                        <b:formGroup>
+                            <p:outputLabel value="Passwords"/>
+                            <b:inputText value="#{userBean.entity.password}" required="true" requiredMessage="Please enter password" field-size="md"/>
+                        </b:formGroup>
+                    </b:panelGrid>
+                    <f:facet name="footer">
+                        <b:row>
+                            <b:panelGrid colSpans="6,6" size="md" styleClass="ui-fluid">
+                                <b:commandButton large-screen="full-width" size="md" value="Save" look="success" action="#{userBean.save(userBean.entity)}" update="@form" />
+                                <b:commandButton large-screen="full-width" size="md" value="Cancel" look="danger" action="#{userBean.cancel(userBean.entity)}" immediate="true" update="@form" />
+                            </b:panelGrid>
+                        </b:row>
+                    </f:facet>
+                </b:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
